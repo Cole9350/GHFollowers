@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol FollowerListViewControllerDelegate: AnyObject {
+    func didRequestFollowers(for username: String)
+}
+
 class GFItemInfoViewController: UIViewController {
     
     let stackView = UIStackView()
@@ -15,6 +19,7 @@ class GFItemInfoViewController: UIViewController {
     let actionbutton = GFButton()
     
     var user: User!
+    weak var delegate: UserInfoViewControllerDelegate!
     
     init(user: User) {
         super.init(nibName: nil, bundle: nil)
@@ -28,6 +33,7 @@ class GFItemInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackgroundView()
+        configureActionButton()
         layoutUI()
         configureStackView()
     }
@@ -44,6 +50,12 @@ class GFItemInfoViewController: UIViewController {
         stackView.addArrangedSubview(itemInfoView1)
         stackView.addArrangedSubview(itemInfoView2)
     }
+    
+    private func configureActionButton() {
+        actionbutton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func actionButtonTapped() { }
     
     private func layoutUI() {
         view.addSubview(stackView)
